@@ -9,6 +9,8 @@ public class BlankDisc implements CompactDisc {
     private String artist;
     private List<String> tracks;
 
+    public BlankDisc() {}
+
     public BlankDisc(String title, String artist) {
         this.title = title;
         this.artist = artist;
@@ -24,6 +26,10 @@ public class BlankDisc implements CompactDisc {
 
     public void setTracks(List<String> tracks) {
         this.tracks = tracks;
+    }
+
+    public void playTrack(int trackNumber) {
+        System.out.println("-Track: " + tracks.get(trackNumber - 1));
     }
 
     public void play() {
