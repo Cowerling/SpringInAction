@@ -16,7 +16,7 @@ public class Minstrel {
         stream.println("Fa la la, the knight is so brave!");
     }
 
-    public void  singAfterQuest() {
+    public void singAfterQuest() {
         stream.println("Tee hee hee, the brave knight did embark on a quest!");
     }
 }
