@@ -1,13 +1,14 @@
 package com.cowerling.soundsystem;
 
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by dell on 2016-12-26.
+ * Created by cowerling on 16-12-26.
  */
 @Aspect
 public class TrackCounter {
@@ -15,4 +16,14 @@ public class TrackCounter {
 
     @Pointcut("execution(* com.cowerling.soundsystem.CompactDisc.playTrack(int)) && args(trackNumber)")
     public void trackPlayed(int trackNumber) {}
+
+    @Before("trackPlayed(trackNumber)")
+    public void countTrack(int trackNumber) {
+        int currentCount = getPlayCount(trackNumber);
+        trackCounts.put(trackNumber, currentCount + 1);
+    }
+
+    public int getPlayCount(int trackNumber) {
+        return trackCounts.containsKey(trackNumber) ? trackCounts.get(trackNumber) : 0;
+    }
 }

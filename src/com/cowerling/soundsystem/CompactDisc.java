@@ -5,6 +5,5 @@ package com.cowerling.soundsystem;
  */
 public interface CompactDisc {
     void playTrack(int trackNumber);
-
     void play();
 }
