@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/aop
+               http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean id="trackCounter" class="com.cowerling.soundsystem.TrackCounter" />
+    <bean id="cd" class="com.cowerling.soundsystem.BlankDisc">
+        <property name="title" value="Sgt. Pepper's Lonely Hearts Club Band" />
+        <property name="tracks">
+            <list>
+                <value>Sgt. Pepper's Lonely Hearts Club Band</value>
+                <value>With a Little Help from My Friends</value>
+                <value>Lucy in the Sky with Diamonds</value>
+                <value>Getting Better</value>
+                <value>Fixing a Hole</value>
+            </list>
+        </property>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="trackCounter">
+            <aop:pointcut id="trackPlayed" expression="execution(* com.cowerling.soundsystem.CompactDisc.playTrack(int)) and args(trackNumber)" />
+
+            <aop:before pointcut-ref="trackPlayed" method="countTrack" />
+        </aop:aspect>
+    </aop:config>
+</beans>

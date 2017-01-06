@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:load-time-weaver/>
+
+    <bean id="audience" class="com.cowerling.concert.Audience" />
+    <bean id="encoreableDelegate" class="com.cowerling.concert.DefaultEncoreable" />
+
+    <bean id="criticismEngine" class="com.cowerling.concert.CriticismEngineImpl">
+        <property name="criticismPool">
+            <list>
+                <value>Worst performance ever!</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="com.cowerling.concert.CriticAspect" factory-method="aspectOf">
+        <property name="criticismEngine" ref="criticismEngine" />
+    </bean>
+
+    <bean id="performance" class="com.cowerling.concert.PerformanceImpl" />
+
+    <aop:config>
+        <aop:aspect ref="audience">
+            <aop:pointcut id="performance" expression="execution(* com.cowerling.concert.Performance.perform(..))" />
+
+            <aop:before pointcut-ref="performance" method="silenceCellPhones" />
+
+            <aop:before pointcut-ref="performance" method="takeSeats" />
+
+            <aop:after-returning pointcut-ref="performance" method="applause" />
+
+            <aop:after-throwing pointcut-ref="performance" method="demandRefund" />
+        </aop:aspect>
+
+        <aop:aspect>
+            <aop:declare-parents
+                    types-matching="com.cowerling.concert.Performance"
+                    implement-interface="com.cowerling.concert.Encoreable"
+                    delegate-ref="encoreableDelegate" />
+        </aop:aspect>
+    </aop:config>
+</beans>

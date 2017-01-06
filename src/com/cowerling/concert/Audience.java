@@ -11,7 +11,7 @@ public class Audience {
     @Pointcut("execution(* com.cowerling.concert.Performance.perform(..))")
     public void performance() {}
 
-    /*@Before("performance()")
+    @Before("performance()")
     public void silenceCellPhones() {
         System.out.println("Silencing cell phones");
     }
@@ -27,7 +27,7 @@ public class Audience {
     }
 
     @AfterThrowing("performance()")
-    public void demandRefund() { System.out.println("Demanding a refund"); }*/
+    public void demandRefund() { System.out.println("Demanding a refund"); }
 
     @Around("performance()")
     public void watchPerformance(ProceedingJoinPoint joinPoint) {
